@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+		<title>数据可视化</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+	
+	<body class="bg01">
+		<header class="header">
+			<h3>中国邮政储蓄银行</h3>
+		</header>
+		
+		<div class="wrapper">
+			<div class="container-fluid">
+				<div class="row row-7">
+					<div class="col-lg-8 fill-h">
+						<div class="xpanel-wrapper xpanel-wrapper-1">
+							<div class="xpanel">
+								<div class="fill-h" id="provinceMap"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 fill-h">
+						<div class="xpanel-wrapper xpanel-wrapper-2">
+							<div class="xpanel">
+								<div class="fill-h" id="flyMap"></div>
+							</div>
+						</div>
+						<div class="xpanel-wrapper xpanel-wrapper-2">
+							<div class="xpanel">
+								<div class="fill-h" id="worldMap"></div>
+							</div>
+						</div>
+					</div>										
+				</div>
+
+				<div class="row row-3">
+					<div class="col-lg-4 fill-h">
+						<div class="xpanel-wrapper xpanel-wrapper-1">
+							<div class="xpanel">
+								<div class="fill-h" id="provinceMap"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 fill-h">
+						<div class="xpanel-wrapper xpanel-wrapper-1">
+							<div class="xpanel">
+								<div class="fill-h" id="provinceMap"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 fill-h">
+						<div class="xpanel-wrapper xpanel-wrapper-1">
+							<div class="xpanel">
+								<div class="fill-h" id="provinceMap"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/echarts-3.8.5.min.js"></script>
+		<script type="text/javascript" src="js/echarts-map-china.js"></script>
+		<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+		<script type="text/javascript">
+			function connect() {
+				var socket = new SockJS("http://127.0.0.1:8080/chat");
+				var client = Stomp.over(socket);
+				client.connect({
+					username: username
+				}, function (succ) {
+					console.log('client connect success:', succ);
+
+					client.subscribe("/message/public", function (res) {
+						console.log('收到消息---/message/public：',res);
+					});
+
+					client.subscribe("/user/notice/msg", function (res) {
+						console.log('个人消息：',res)
+					});
+				}, function (error) {
+					console.log('client connect error:', error);
+				});
+				sendMessage = function (destination, headers, body) {
+					client.send(destination, headers, body)
+				};
+				disConnect = function () {
+					client.disconnect();
+					console.log('client connect break')
+				}
+			}
+
+			$(function() {				
+				
+				/******************* 省份地图 ******************/
+				//初始化echarts实例
+				const provinceMap = echarts.init(document.getElementById("provinceMap"));
+
+				const provinceMapOpt = {
+					title: {  
+						text: '全国ETC签约数据',
+						x:'center',
+						textStyle:{
+							//文字颜色
+							color:'#5dc2fe',
+							//字体风格,'normal','italic','oblique'
+							fontStyle:'normal',
+							//字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+							fontWeight:'bold',
+							//字体大小
+					　　　　 fontSize:25
+    					}  
+					},  
+					tooltip : {  
+						trigger: 'item',
+						formatter: '{b} <br/> 总量:{c}'
+					},				
+					series: [
+						{
+							name: '中国地图',
+							type: 'map',
+							map: 'china',
+							label: {
+								normal:{
+									show:true,
+									textStyle:{
+										color:'#5dc2fe',
+										fontSize:13
+									}  
+								},
+								emphasis: {
+									show: false,
+								}								
+							},
+							itemStyle: {
+									normal: {
+										areaColor: '#101f32',
+										borderWidth: 1.1,
+										borderColor: '#43d0d6'
+									},
+									emphasis: {
+										areaColor: '#069'
+									}
+							},
+							data:[
+								{
+									name: '江苏',
+									value: '50'
+								}
+							]
+						}
+					]
+				};
+				provinceMap.setOption(provinceMapOpt);
+				
+				/********** 浏览器窗口改变时，重置报表大小 ****************/
+				window.onresize = function() {
+					provinceMap.resize();
+				}
+			});
+		</script>
+	</body>
+</html>
