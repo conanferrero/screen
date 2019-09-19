@@ -1,4 +1,4 @@
-package com.psbc.screen.entity;
+package com.screen.entity;
 
 public class ETCEo {
 	private int provinceId;

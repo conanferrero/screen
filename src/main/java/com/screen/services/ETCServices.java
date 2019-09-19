@@ -1,6 +1,6 @@
-package com.psbc.screen.services;
+package com.screen.services;
 
-import com.psbc.screen.vo.ETCVo;
+import com.screen.vo.ETCVo;
 
 public interface ETCServices {
 	

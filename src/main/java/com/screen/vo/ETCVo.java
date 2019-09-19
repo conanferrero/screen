@@ -1,4 +1,4 @@
-package com.psbc.screen.vo;
+package com.screen.vo;
 
 import java.util.HashMap;
 

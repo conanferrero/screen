@@ -1,4 +1,4 @@
-package com.psbc.screen.services.impl;
+package com.screen.services.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.psbc.screen.entity.ETCEo;
-import com.psbc.screen.mapper.ETCMapper;
-import com.psbc.screen.services.ETCServices;
-import com.psbc.screen.vo.ETCVo;
+import com.screen.entity.ETCEo;
+import com.screen.mapper.ETCMapper;
+import com.screen.services.ETCServices;
+import com.screen.vo.ETCVo;
 
 @Service
 public class ETCServicesImpl implements ETCServices {

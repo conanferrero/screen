@@ -1,10 +1,10 @@
-package com.psbc.screen.mapper;
+package com.screen.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.psbc.screen.entity.ETCEo;
+import com.screen.entity.ETCEo;
 
 @Mapper
 public interface ETCMapper {
